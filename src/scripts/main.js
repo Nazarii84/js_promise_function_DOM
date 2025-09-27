@@ -34,20 +34,30 @@ if (typeof window !== 'undefined') {
 }
 
 function wireUp() {
-  [loginField, passwordField, button].forEach((el) => {
-    if (el) {
-      waitFor(el, 'click').then(printMessage);
-      waitFor(el, 'blur').then(printMessage);
+  const login = document.getElementById('login');
+  const password = document.getElementById('password');
+  const submit = document.getElementById('submit');
+
+  const on = (el, type) => {
+    if (!el) {
+      return;
     }
-  });
 
-  if (loginField) {
-    waitFor(loginField, 'input').then(printMessage);
-  }
+    waitFor(el, type)
+      .then(printMessage)
+      .catch(() => {});
+  };
 
-  if (passwordField) {
-    waitFor(passwordField, 'input').then(printMessage);
-  }
+  on(login, 'click');
+  on(password, 'click');
+  on(submit, 'click');
+
+  on(login, 'input');
+  on(password, 'input');
+
+  on(login, 'blur');
+  on(password, 'blur');
+  on(submit, 'blur');
 }
 
 if (document.readyState === 'loading') {
